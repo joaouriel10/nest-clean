@@ -1,19 +1,19 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { DomainEvent } from '@/core/events/domain-event'
 import { Question } from '../entities/question'
 
 export class QuestionBestAnswerChosenEvent implements DomainEvent {
   public ocurredAt: Date
   public question: Question
-  public bestAnserId: UniqueEntityId
+  public bestAnswerId: UniqueEntityID
 
-  constructor(question: Question, bestAnswerId: UniqueEntityId) {
+  constructor(question: Question, bestAnswerId: UniqueEntityID) {
     this.question = question
-    this.bestAnserId = bestAnswerId
+    this.bestAnswerId = bestAnswerId
     this.ocurredAt = new Date()
   }
 
-  getAggregateId(): UniqueEntityId {
+  getAggregateId(): UniqueEntityID {
     return this.question.id
   }
 }

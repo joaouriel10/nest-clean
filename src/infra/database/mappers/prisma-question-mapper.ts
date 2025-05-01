@@ -1,6 +1,6 @@
 import { Question as PrismaQuestion, Prisma } from "@prisma/client";
 import { Question } from "@/domain/forum/enterprise/entities/question";
-import { UniqueEntityId } from "@/core/entities/unique-entity-id";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { Slug } from "@/domain/forum/enterprise/entities/value-objects/slug";
 
 export class prismaQuestionMapper {
@@ -8,12 +8,12 @@ export class prismaQuestionMapper {
     return Question.create({
       title: raw.title,
       content: raw.content,
-      authorId: new UniqueEntityId(raw.authorId),
-      bestAnswerId: raw.bestAnswerId ? new UniqueEntityId(raw.bestAnswerId) : null,
+      authorId: new UniqueEntityID(raw.authorId),
+      bestAnswerId: raw.bestAnswerId ? new UniqueEntityID(raw.bestAnswerId) : null,
       slug: Slug.create(raw.slug),
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
-    }, new UniqueEntityId(raw.id));
+    }, new UniqueEntityID(raw.id));
   }
 
   static toPrisma(question: Question): Prisma.QuestionUncheckedCreateInput {

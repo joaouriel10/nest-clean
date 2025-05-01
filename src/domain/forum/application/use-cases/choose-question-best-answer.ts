@@ -1,17 +1,17 @@
+import { AnswersRepository } from '../repositories/answers-repository'
+import { Question } from '@/domain/forum/enterprise/entities/question'
+import { QuestionsRepository } from '@/domain/forum/application/repositories/questions-repository'
 import { Either, left, right } from '@/core/either'
-import type { Question } from '../../enterprise/entities/question'
-import type { AnswersRepository } from '../repositories/answers-repository'
-import type { QuestionsRepository } from '../repositories/questions-repository'
-import { ResouceNotFoundError } from '@/core/errors/erros/resource-not-found-error'
-import { NotAllowedError } from '@/core/errors/erros/not-allowed-error'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 
-interface ChooseQuestionBestAnswerUseCaseRequets {
-  answerId: string
+interface ChooseQuestionBestAnswerUseCaseRequest {
   authorId: string
+  answerId: string
 }
 
 type ChooseQuestionBestAnswerUseCaseResponse = Either<
-  ResouceNotFoundError | NotAllowedError,
+  ResourceNotFoundError | NotAllowedError,
   {
     question: Question
   }
@@ -19,18 +19,18 @@ type ChooseQuestionBestAnswerUseCaseResponse = Either<
 
 export class ChooseQuestionBestAnswerUseCase {
   constructor(
-    private answerRepository: AnswersRepository,
     private questionsRepository: QuestionsRepository,
+    private answersRepository: AnswersRepository,
   ) {}
 
   async execute({
     answerId,
     authorId,
-  }: ChooseQuestionBestAnswerUseCaseRequets): Promise<ChooseQuestionBestAnswerUseCaseResponse> {
-    const answer = await this.answerRepository.findById(answerId)
+  }: ChooseQuestionBestAnswerUseCaseRequest): Promise<ChooseQuestionBestAnswerUseCaseResponse> {
+    const answer = await this.answersRepository.findById(answerId)
 
     if (!answer) {
-      return left(new ResouceNotFoundError())
+      return left(new ResourceNotFoundError())
     }
 
     const question = await this.questionsRepository.findById(
@@ -38,7 +38,7 @@ export class ChooseQuestionBestAnswerUseCase {
     )
 
     if (!question) {
-      return left(new ResouceNotFoundError())
+      return left(new ResourceNotFoundError())
     }
 
     if (authorId !== question.authorId.toString()) {

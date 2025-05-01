@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.services";
-import { QuestionAttachmentRepository } from "@/domain/forum/application/repositories/question-attachments-repository";
+import { QuestionAttachmentsRepository } from "@/domain/forum/application/repositories/question-attachments-repository";
 import { QuestionAttachment } from "@/domain/forum/enterprise/entities/question-attachment";
 
 @Injectable()
-export class PrismaQuestionAttachmentsRepository implements QuestionAttachmentRepository {
+export class PrismaQuestionAttachmentsRepository implements QuestionAttachmentsRepository {
   constructor(private prisma: PrismaService) {}
 
   findManyByQuestionId(questionId: string): Promise<QuestionAttachment[]> {

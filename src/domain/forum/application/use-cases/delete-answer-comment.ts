@@ -1,7 +1,7 @@
-import { type Either, left, right } from '@/core/either'
-import type { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
-import { ResouceNotFoundError } from '@/core/errors/erros/resource-not-found-error'
-import { NotAllowedError } from '@/core/errors/erros/not-allowed-error'
+import { Either, left, right } from '@/core/either'
+import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 interface DeleteAnswerCommentUseCaseRequest {
   authorId: string
@@ -9,8 +9,8 @@ interface DeleteAnswerCommentUseCaseRequest {
 }
 
 type DeleteAnswerCommentUseCaseResponse = Either<
-  ResouceNotFoundError | NotAllowedError,
-  null
+  ResourceNotFoundError | NotAllowedError,
+  {}
 >
 
 export class DeleteAnswerCommentUseCase {
@@ -20,11 +20,12 @@ export class DeleteAnswerCommentUseCase {
     authorId,
     answerCommentId,
   }: DeleteAnswerCommentUseCaseRequest): Promise<DeleteAnswerCommentUseCaseResponse> {
-    const answerComment =
-      await this.answerCommentsRepository.findById(answerCommentId)
+    const answerComment = await this.answerCommentsRepository.findById(
+      answerCommentId,
+    )
 
     if (!answerComment) {
-      return left(new ResouceNotFoundError())
+      return left(new ResourceNotFoundError())
     }
 
     if (answerComment.authorId.toString() !== authorId) {
@@ -33,6 +34,6 @@ export class DeleteAnswerCommentUseCase {
 
     await this.answerCommentsRepository.delete(answerComment)
 
-    return right(null)
+    return right({})
   }
 }

@@ -1,9 +1,9 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { AnswerComment } from '../../enterprise/entities/answer-comment'
-import type { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
-import type { AnswersRepository } from '../repositories/answers-repository'
+import { AnswersRepository } from '../repositories/answers-repository'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
+import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
 import { Either, left, right } from '@/core/either'
-import { ResouceNotFoundError } from '@/core/errors/erros/resource-not-found-error'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 interface CommentOnAnswerUseCaseRequest {
   authorId: string
@@ -12,7 +12,7 @@ interface CommentOnAnswerUseCaseRequest {
 }
 
 type CommentOnAnswerUseCaseResponse = Either<
-  ResouceNotFoundError,
+  ResourceNotFoundError,
   {
     answerComment: AnswerComment
   }
@@ -29,16 +29,16 @@ export class CommentOnAnswerUseCase {
     answerId,
     content,
   }: CommentOnAnswerUseCaseRequest): Promise<CommentOnAnswerUseCaseResponse> {
-    const answer = this.answersRepository.findById(answerId)
+    const answer = await this.answersRepository.findById(answerId)
 
     if (!answer) {
-      return left(new ResouceNotFoundError())
+      return left(new ResourceNotFoundError())
     }
 
     const answerComment = AnswerComment.create({
-      authorId: new UniqueEntityId(authorId),
+      authorId: new UniqueEntityID(authorId),
+      answerId: new UniqueEntityID(answerId),
       content,
-      answerId: new UniqueEntityId(answerId),
     })
 
     await this.answerCommentsRepository.create(answerComment)

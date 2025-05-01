@@ -10,11 +10,11 @@ describe('Send Notification', () => {
     sut = new SendNotificationUseCase(inMemoryNotificationsRepository)
   })
 
-  it('shold be able to send a notification', async () => {
+  it('should be able to send a notification', async () => {
     const result = await sut.execute({
       recipientId: '1',
       title: 'Nova notificação',
-      content: 'Conteudo da notificação',
+      content: 'Conteúdo da notificação',
     })
 
     expect(result.isRight()).toBe(true)

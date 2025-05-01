@@ -1,19 +1,19 @@
-import { makeQuestion } from 'test/factories/make-question'
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
-import { Slug } from '../../enterprise/entities/value-objects/slug'
 import { GetQuestionBySlugUseCase } from './get-question-by-slug'
-import { InMemoryQuestionAttachmentRepository } from 'test/repositories/in-memory-question-attatchments-reporitory'
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
+import { makeQuestion } from 'test/factories/make-question'
+import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let inMemoryQuestionAttachmentRepository: InMemoryQuestionAttachmentRepository
 let sut: GetQuestionBySlugUseCase
 
 describe('Get Question By Slug', () => {
   beforeEach(() => {
-    inMemoryQuestionAttachmentRepository =
-      new InMemoryQuestionAttachmentRepository()
+    inMemoryQuestionAttachmentsRepository =
+      new InMemoryQuestionAttachmentsRepository()
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
-      inMemoryQuestionAttachmentRepository,
+      inMemoryQuestionAttachmentsRepository,
     )
     sut = new GetQuestionBySlugUseCase(inMemoryQuestionsRepository)
   })

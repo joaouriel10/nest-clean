@@ -1,5 +1,5 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { DomainEvent } from '../events/domain-event'
-import { DomainEvents } from '../events/domain-events'
 import { Entity } from './entity'
 
 export abstract class AggregateRoot<Props> extends Entity<Props> {
@@ -10,11 +10,11 @@ export abstract class AggregateRoot<Props> extends Entity<Props> {
   }
 
   protected addDomainEvent(domainEvent: DomainEvent): void {
-    this.domainEvents.push(domainEvent)
+    this._domainEvents.push(domainEvent)
     DomainEvents.markAggregateForDispatch(this)
   }
 
-  public clearEvents(): void {
+  public clearEvents() {
     this._domainEvents = []
   }
 }

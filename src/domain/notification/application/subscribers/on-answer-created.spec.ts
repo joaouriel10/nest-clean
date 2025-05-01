@@ -1,12 +1,12 @@
-import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+import { OnAnswerCreated } from '@/domain/notification/application/subscribers/on-answer-created'
 import { makeAnswer } from 'test/factories/make-answer'
-import { OnAnswerCreated } from './on-answer-created'
-import { InMemoryAnswerAttachmentRepository } from 'test/repositories/in-memory-answers-attatchments-reporitory'
+import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments-repository'
+import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
+import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
-import { InMemoryQuestionAttachmentRepository } from 'test/repositories/in-memory-question-attatchments-reporitory'
 import {
   SendNotificationUseCase,
-  SendNotificationUseCaseRequets,
+  SendNotificationUseCaseRequest,
   SendNotificationUseCaseResponse,
 } from '../use-cases/send-notification'
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notifications-repository'
@@ -14,29 +14,29 @@ import { makeQuestion } from 'test/factories/make-question'
 import { SpyInstance } from 'vitest'
 import { waitFor } from 'test/utils/wait-for'
 
-let inMemoryQuestionAttachmentRepository: InMemoryQuestionAttachmentRepository
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let inMemoryAnswerAttachmentRepository: InMemoryAnswerAttachmentRepository
+let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository
 let sendNotificationUseCase: SendNotificationUseCase
 
 let sendNotificationExecuteSpy: SpyInstance<
-  [SendNotificationUseCaseRequets],
+  [SendNotificationUseCaseRequest],
   Promise<SendNotificationUseCaseResponse>
 >
 
-describe('On answer created subscriber', () => {
+describe('On Answer Created', () => {
   beforeEach(() => {
-    inMemoryQuestionAttachmentRepository =
-      new InMemoryQuestionAttachmentRepository()
+    inMemoryQuestionAttachmentsRepository =
+      new InMemoryQuestionAttachmentsRepository()
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
-      inMemoryQuestionAttachmentRepository,
+      inMemoryQuestionAttachmentsRepository,
     )
-    inMemoryAnswerAttachmentRepository =
-      new InMemoryAnswerAttachmentRepository()
+    inMemoryAnswerAttachmentsRepository =
+      new InMemoryAnswerAttachmentsRepository()
     inMemoryAnswersRepository = new InMemoryAnswersRepository(
-      inMemoryAnswerAttachmentRepository,
+      inMemoryAnswerAttachmentsRepository,
     )
     inMemoryNotificationsRepository = new InMemoryNotificationsRepository()
     sendNotificationUseCase = new SendNotificationUseCase(
@@ -48,7 +48,7 @@ describe('On answer created subscriber', () => {
     new OnAnswerCreated(inMemoryQuestionsRepository, sendNotificationUseCase)
   })
 
-  it('should send a notification when an answer is created', async () => {
+  it('should  send a notification when an answer is created', async () => {
     const question = makeQuestion()
     const answer = makeAnswer({ questionId: question.id })
 

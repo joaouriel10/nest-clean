@@ -1,14 +1,14 @@
+import { Answer } from '@/domain/forum/enterprise/entities/answer'
+import { AnswersRepository } from '../repositories/answers-repository'
 import { Either, left, right } from '@/core/either'
-import type { Answer } from '../../enterprise/entities/answer'
-import type { AnswersRepository } from '../repositories/answers-repository'
-import { ResouceNotFoundError } from '@/core/errors/erros/resource-not-found-error'
-import { NotAllowedError } from '@/core/errors/erros/not-allowed-error'
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { AnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
 import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { AnswerAttachmentRepository } from '../repositories/answer-attachments-repository'
 
-interface EditAnswerUseCaseRequets {
+interface EditAnswerUseCaseRequest {
   authorId: string
   answerId: string
   content: string
@@ -16,7 +16,7 @@ interface EditAnswerUseCaseRequets {
 }
 
 type EditAnswerUseCaseResponse = Either<
-  ResouceNotFoundError | NotAllowedError,
+  ResourceNotFoundError | NotAllowedError,
   {
     answer: Answer
   }
@@ -25,7 +25,7 @@ type EditAnswerUseCaseResponse = Either<
 export class EditAnswerUseCase {
   constructor(
     private answersRepository: AnswersRepository,
-    private answerAttachmentsRepository: AnswerAttachmentRepository,
+    private answerAttachmentsRepository: AnswerAttachmentsRepository,
   ) {}
 
   async execute({
@@ -33,11 +33,11 @@ export class EditAnswerUseCase {
     answerId,
     content,
     attachmentsIds,
-  }: EditAnswerUseCaseRequets): Promise<EditAnswerUseCaseResponse> {
+  }: EditAnswerUseCaseRequest): Promise<EditAnswerUseCaseResponse> {
     const answer = await this.answersRepository.findById(answerId)
 
     if (!answer) {
-      return left(new ResouceNotFoundError())
+      return left(new ResourceNotFoundError())
     }
 
     if (authorId !== answer.authorId.toString()) {
@@ -53,7 +53,7 @@ export class EditAnswerUseCase {
 
     const answerAttachments = attachmentsIds.map((attachmentId) => {
       return AnswerAttachment.create({
-        attachmentId: new UniqueEntityId(attachmentId),
+        attachmentId: new UniqueEntityID(attachmentId),
         answerId: answer.id,
       })
     })
@@ -62,7 +62,6 @@ export class EditAnswerUseCase {
 
     answer.attachments = answerAttachmentList
     answer.content = content
-    answer.attachments = answerAttachmentList
 
     await this.answersRepository.save(answer)
 

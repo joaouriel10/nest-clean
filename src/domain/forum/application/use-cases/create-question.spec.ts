@@ -1,27 +1,27 @@
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { CreateQuestionUseCase } from './create-question'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { InMemoryQuestionAttachmentRepository } from 'test/repositories/in-memory-question-attatchments-reporitory'
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
+import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let inMemoryQuestionAttachmentRepository: InMemoryQuestionAttachmentRepository
+let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let sut: CreateQuestionUseCase
 
-describe('Creaate Question', () => {
+describe('Create Question', () => {
   beforeEach(() => {
-    inMemoryQuestionAttachmentRepository =
-      new InMemoryQuestionAttachmentRepository()
+    inMemoryQuestionAttachmentsRepository =
+      new InMemoryQuestionAttachmentsRepository()
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
-      inMemoryQuestionAttachmentRepository,
+      inMemoryQuestionAttachmentsRepository,
     )
     sut = new CreateQuestionUseCase(inMemoryQuestionsRepository)
   })
 
-  it('shold be able to create a question', async () => {
+  it('should be able to create a question', async () => {
     const result = await sut.execute({
       authorId: '1',
-      title: 'Nova resposta',
-      content: 'Conteudo da pergunta',
+      title: 'Nova pergunta',
+      content: 'Conteúdo da pergunta',
       attachmentsIds: ['1', '2'],
     })
 
@@ -33,8 +33,8 @@ describe('Creaate Question', () => {
     expect(
       inMemoryQuestionsRepository.items[0].attachments.currentItems,
     ).toEqual([
-      expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
-      expect.objectContaining({ attachmentId: new UniqueEntityId('2') }),
+      expect.objectContaining({ attachmentId: new UniqueEntityID('1') }),
+      expect.objectContaining({ attachmentId: new UniqueEntityID('2') }),
     ])
   })
 })
