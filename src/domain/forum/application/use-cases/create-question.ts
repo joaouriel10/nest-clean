@@ -15,10 +15,10 @@ interface CreateQuestionUseCaseRequest {
 }
 
 type CreateQuestionUseCaseResponse = Either<
-null,
-{
-  question: Question
-}
+  null,
+  {
+    question: Question
+  }
 >
 
 @Injectable()
