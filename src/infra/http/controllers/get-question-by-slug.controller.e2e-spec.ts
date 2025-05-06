@@ -1,54 +1,52 @@
 import { AppModule } from '@/infra/app.module'
+import { DatabaseModule } from '@/infra/database/database.module'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { StudentFactory } from 'test/factories/make-student'
 import { QuestionFactory } from 'test/factories/make-question'
-import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/prisma.services'
-describe('Create Question (E2E)', () => {
+import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
+
+describe('Get Question By Slug (E2E)', () => {
   let app: INestApplication
-  let prisma: PrismaService
   let studentFactory: StudentFactory
+  let questionFactory: QuestionFactory
   let jwt: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory],
+      providers: [StudentFactory, QuestionFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
 
-    prisma = moduleRef.get(PrismaService)
-    jwt = moduleRef.get(JwtService)
     studentFactory = moduleRef.get(StudentFactory)
+    questionFactory = moduleRef.get(QuestionFactory)
+    jwt = moduleRef.get(JwtService)
 
     await app.init()
   })
 
-  test('[POST] /questions', async () => {
+  test('[GET] /questions/:slug', async () => {
     const user = await studentFactory.makePrismaStudent()
 
     const session = jwt.sign({ sub: user.id.toString() })
 
-    const response = await request(app.getHttpServer())
-      .post('/questions')
-      .set('Authorization', `Bearer ${session}`)
-      .send({
-        title: 'New Question',
-        content: 'Question content',
-      })
-
-    expect(response.statusCode).toBe(201)
-
-    const questionOnDatabase = await prisma.question.findFirst({
-      where: {
-        title: 'New Question',
-      },
+    await questionFactory.makePrismaQuestion({
+      title: 'Question 1',
+      authorId: user.id,
+      slug: Slug.create('question-1'),
     })
 
-    expect(questionOnDatabase).toBeTruthy()
+    const response = await request(app.getHttpServer())
+      .get('/questions/question-1')
+      .set('Authorization', `Bearer ${session}`)
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({
+      question: expect.objectContaining({ title: 'Question 1' }),
+    })
   })
 })
