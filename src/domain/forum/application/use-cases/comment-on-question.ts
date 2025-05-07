@@ -1,9 +1,9 @@
-import type { QuestionsRepository } from '../repositories/questions-repository'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment'
-import type { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
 import { type Either, left, right } from '@/core/either'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
+import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment'
+import { QuestionsRepository } from '../repositories/questions-repository'
 
 interface CommentOnQuestionUseCaseRequest {
   authorId: string

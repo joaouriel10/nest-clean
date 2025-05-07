@@ -1,7 +1,7 @@
 import { type Either, left, right } from '@/core/either'
-import type { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
+import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
 
 interface DeleteQuestionCommentUseCaseRequest {
   authorId: string

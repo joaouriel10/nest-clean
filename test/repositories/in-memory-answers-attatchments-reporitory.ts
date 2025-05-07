@@ -1,5 +1,5 @@
-import type { AnswerAttachmentRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
-import type { AnswerAttachment } from '@/domain/forum/enterprise/entities/answer-attachment'
+import { AnswerAttachmentRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
+import { AnswerAttachment } from '@/domain/forum/enterprise/entities/answer-attachment'
 
 export class InMemoryAnswerAttachmentRepository
   implements AnswerAttachmentRepository

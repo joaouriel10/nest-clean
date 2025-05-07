@@ -1,9 +1,9 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
+import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
+import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment'
 import { Injectable } from '@nestjs/common'
-import type { PrismaService } from '../prisma.services'
-import type { PaginationParams } from '@/core/repositories/pagination-params'
-import type { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment'
-import type { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
 import { PrismaQuestionCommentMapper } from '../../mappers/prisma-question-comment-mapper'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class PrismaQuestionCommentsRepository
@@ -44,8 +44,10 @@ export class PrismaQuestionCommentsRepository
   }
 
   async create(questionComment: QuestionComment): Promise<void> {
+    const data = PrismaQuestionCommentMapper.toPrisma(questionComment)
+
     await this.prisma.comment.create({
-      data: PrismaQuestionCommentMapper.toPrisma(questionComment),
+      data,
     })
   }
 

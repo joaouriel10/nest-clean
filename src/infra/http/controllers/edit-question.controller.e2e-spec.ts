@@ -1,12 +1,11 @@
 import { AppModule } from '@/infra/app.module'
-import type { INestApplication } from '@nestjs/common'
+import { DatabaseModule } from '@/infra/database/database.module'
+import { PrismaService } from '@/infra/database/prisma/prisma.service'
+import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { StudentFactory } from 'test/factories/make-student'
-import { QuestionFactory } from 'test/factories/make-question'
-import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/prisma.services'
 describe('Create Question (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
@@ -41,7 +40,7 @@ describe('Create Question (E2E)', () => {
         content: 'Question content',
       })
 
-    expect(response.statusCode).toBe(201)
+    expect(response.statusCode).toBe(204)
 
     const questionOnDatabase = await prisma.question.findFirst({
       where: {

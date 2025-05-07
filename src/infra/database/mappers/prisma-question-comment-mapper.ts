@@ -1,6 +1,6 @@
-import type { Comment as PrismaComment, Prisma } from '@prisma/client'
-import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment'
+import { Prisma, Comment as PrismaComment } from '@prisma/client'
 
 export class PrismaQuestionCommentMapper {
   static toDomain(raw: PrismaComment): QuestionComment {

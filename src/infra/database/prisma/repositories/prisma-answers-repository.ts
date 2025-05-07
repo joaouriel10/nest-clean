@@ -1,13 +1,14 @@
+import { PaginationParams } from '@/core/repositories/pagination-params'
+import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
+import { Answer } from '@/domain/forum/enterprise/entities/answer'
 import { Injectable } from '@nestjs/common'
-import type { PrismaService } from '../prisma.services'
-import type { Answer } from '@/domain/forum/enterprise/entities/answer'
-import type { PaginationParams } from '@/core/repositories/pagination-params'
-import type { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
 import { PrismaAnswerMapper } from '../../mappers/prisma-answer-mapper'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
-export class PrismaAnswerRepository implements AnswersRepository {
+export class PrismaAnswersRepository implements AnswersRepository {
   constructor(private prisma: PrismaService) {}
+
   async findById(id: string): Promise<Answer | null> {
     const answer = await this.prisma.answer.findUnique({
       where: {
@@ -40,21 +41,25 @@ export class PrismaAnswerRepository implements AnswersRepository {
     return answers.map(PrismaAnswerMapper.toDomain)
   }
 
-  async save(answer: Answer): Promise<void> {
+  async create(answer: Answer): Promise<void> {
     const data = PrismaAnswerMapper.toPrisma(answer)
 
-    await this.prisma.answer.update({
-      where: {
-        id: data.id,
-      },
+    await this.prisma.answer.create({
       data,
     })
   }
 
-  async create(answer: Answer): Promise<void> {
-    await this.prisma.answer.create({
-      data: PrismaAnswerMapper.toPrisma(answer),
-    })
+  async save(answer: Answer): Promise<void> {
+    const data = PrismaAnswerMapper.toPrisma(answer)
+
+    await Promise.all([
+      this.prisma.answer.update({
+        where: {
+          id: answer.id.toString(),
+        },
+        data,
+      }),
+    ])
   }
 
   async delete(answer: Answer): Promise<void> {
