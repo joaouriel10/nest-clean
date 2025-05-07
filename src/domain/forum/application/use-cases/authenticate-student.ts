@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
 
-import { Either, left, right } from '@/core/either'
-import { StudentsRepository } from '../repositories/students-repository'
-import { HashComparer } from '../cryptography/hash-comparer'
-import { Encrypter } from '../cryptography/encrypter'
+import { type Either, left, right } from '@/core/either'
+import type { StudentsRepository } from '../repositories/students-repository'
+import type { HashComparer } from '../cryptography/hash-comparer'
+import type { Encrypter } from '../cryptography/encrypter'
 import { WrongCredentialsError } from './errors/wrong-credentials-error'
 
 interface AuthenticateStudentUseCaseRequest {
@@ -38,7 +38,7 @@ export class AuthenticateStudentUseCase {
 
     const isPasswordValid = await this.hashComparer.compare(
       password,
-      student.password
+      student.password,
     )
 
     if (!isPasswordValid) {

@@ -6,7 +6,7 @@ import {
   type AnswerCommentProps,
 } from '@/domain/forum/enterprise/entities/answer-comment'
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@/infra/database/prisma/prisma.services'
+import type { PrismaService } from '@/infra/database/prisma/prisma.services'
 import { PrismaAnswerCommentMapper } from '@/infra/database/mappers/prisma-answer-comment-mapper'
 
 export function makeAnswerComment(

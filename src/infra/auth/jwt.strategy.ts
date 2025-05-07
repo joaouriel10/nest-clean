@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { z } from 'zod'
-import { EnvService } from '../env/env.services'
+import type { EnvService } from '../env/env.services'
 
 const tokenPayloadSchema = z.object({
   sub: z.string().uuid(),

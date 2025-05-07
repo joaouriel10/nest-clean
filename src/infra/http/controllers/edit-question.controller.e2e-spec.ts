@@ -1,12 +1,12 @@
 import { AppModule } from '@/infra/app.module'
-import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/prisma.services'
 import type { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { StudentFactory } from 'test/factories/make-student'
-
+import { QuestionFactory } from 'test/factories/make-question'
+import { DatabaseModule } from '@/infra/database/database.module'
+import { PrismaService } from '@/infra/database/prisma/prisma.services'
 describe('Create Question (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService

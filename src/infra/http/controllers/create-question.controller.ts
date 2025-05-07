@@ -1,10 +1,9 @@
-import { z } from 'zod'
-import { UserPayload } from '@/infra/auth/jwt.strategy'
-import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
+import type { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
 import { CurrentUser } from '@/infra/auth/current-user-decorator'
-import { BadRequestException, Body, Controller, Post, UseGuards } from '@nestjs/common'
+import type { UserPayload } from '@/infra/auth/jwt.strategy'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question'
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
+import { z } from 'zod'
 
 const createQuestionBodySchema = z.object({
   title: z.string(),

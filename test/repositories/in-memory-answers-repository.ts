@@ -1,6 +1,6 @@
 import { DomainEvents } from '@/core/events/domain-events'
 import type { PaginationParams } from '@/core/repositories/pagination-params'
-import { AnswerAttachmentRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
+import type { AnswerAttachmentRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
 import type { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
 import type { Answer } from '@/domain/forum/enterprise/entities/answer'
 

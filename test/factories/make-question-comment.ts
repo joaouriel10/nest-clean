@@ -5,7 +5,7 @@ import {
   QuestionComment,
   type QuestionCommentProps,
 } from '@/domain/forum/enterprise/entities/question-comment'
-import { PrismaService } from '@/infra/database/prisma/prisma.services'
+import type { PrismaService } from '@/infra/database/prisma/prisma.services'
 import { PrismaQuestionCommentMapper } from '@/infra/database/mappers/prisma-question-comment-mapper'
 import { Injectable } from '@nestjs/common'
 

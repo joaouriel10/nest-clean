@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common'
 
 import { Question } from '@/domain/forum/enterprise/entities/question'
-import { QuestionsRepository } from '../repositories/questions-repository'
+import type { QuestionsRepository } from '../repositories/questions-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Either, right } from '@/core/either'
+import { type Either, right } from '@/core/either'
 import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment'
 import { QuestionAttachmentList } from '@/domain/forum/enterprise/entities/question-attachment-list'
 

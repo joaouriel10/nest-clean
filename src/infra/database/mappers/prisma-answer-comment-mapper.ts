@@ -1,4 +1,4 @@
-import { Comment as PrismaComment, Prisma } from '@prisma/client'
+import type { Comment as PrismaComment, Prisma } from '@prisma/client'
 import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
@@ -20,7 +20,9 @@ export class PrismaAnswerCommentMapper {
     )
   }
 
-  static toPrisma(answerComment: AnswerComment): Prisma.CommentUncheckedCreateInput {
+  static toPrisma(
+    answerComment: AnswerComment,
+  ): Prisma.CommentUncheckedCreateInput {
     return {
       id: answerComment.id.toString(),
       authorId: answerComment.authorId.toString(),

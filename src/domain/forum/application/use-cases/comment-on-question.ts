@@ -1,8 +1,8 @@
-import { QuestionsRepository } from '../repositories/questions-repository'
+import type { QuestionsRepository } from '../repositories/questions-repository'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment'
-import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
-import { Either, left, right } from '@/core/either'
+import type { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
+import { type Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 
 interface CommentOnQuestionUseCaseRequest {

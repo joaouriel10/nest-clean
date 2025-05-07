@@ -5,7 +5,7 @@ import {
   Question,
   type QuestionProps,
 } from '@/domain/forum/enterprise/entities/question'
-import { PrismaService } from '@/infra/database/prisma/prisma.services'
+import type { PrismaService } from '@/infra/database/prisma/prisma.services'
 import { Injectable } from '@nestjs/common'
 import { PrismaQuestionMapper } from '@/infra/database/mappers/prisma-question-mapper'
 

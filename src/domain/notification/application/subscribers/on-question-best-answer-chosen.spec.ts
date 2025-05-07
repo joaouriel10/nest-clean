@@ -5,12 +5,12 @@ import { InMemoryQuestionAttachmentRepository } from 'test/repositories/in-memor
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
 import {
   SendNotificationUseCase,
-  SendNotificationUseCaseRequest,
-  SendNotificationUseCaseResponse,
+  type SendNotificationUseCaseRequest,
+  type SendNotificationUseCaseResponse,
 } from '../use-cases/send-notification'
 import { InMemoryNotificationsRepository } from 'test/repositories/in-memory-notifications-repository'
 import { makeQuestion } from 'test/factories/make-question'
-import { SpyInstance } from 'vitest'
+import type { SpyInstance } from 'vitest'
 import { waitFor } from 'test/utils/wait-for'
 import { OnQuestionBestAnswerChosen } from '@/domain/notification/application/subscribers/on-question-best-answer-chosen'
 

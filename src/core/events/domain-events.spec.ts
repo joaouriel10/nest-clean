@@ -1,5 +1,5 @@
-import { DomainEvent } from '../events/domain-event'
-import { UniqueEntityID } from '../entities/unique-entity-id'
+import type { DomainEvent } from '../events/domain-event'
+import type { UniqueEntityID } from '../entities/unique-entity-id'
 import { AggregateRoot } from '../entities/aggregate-root'
 import { DomainEvents } from '@/core/events/domain-events'
 import { vi } from 'vitest'

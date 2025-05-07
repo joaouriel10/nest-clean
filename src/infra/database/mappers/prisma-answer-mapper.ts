@@ -1,4 +1,4 @@
-import { Answer as PrismaAnswer, Prisma } from '@prisma/client'
+import type { Answer as PrismaAnswer, Prisma } from '@prisma/client'
 import { Answer } from '@/domain/forum/enterprise/entities/answer'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 

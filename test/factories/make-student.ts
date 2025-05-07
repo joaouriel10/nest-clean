@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker'
 
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Student, StudentProps } from '@/domain/forum/enterprise/entities/student'
+import type { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { Student, type StudentProps } from '@/domain/forum/enterprise/entities/student'
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@/infra/database/prisma/prisma.services'
+import type { PrismaService } from '@/infra/database/prisma/prisma.services'
 import { PrismaStudentMapper } from '@/infra/database/mappers/prisma-student-mapper'
 
 export function makeStudent(

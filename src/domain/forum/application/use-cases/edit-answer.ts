@@ -1,11 +1,11 @@
-import { Answer } from '@/domain/forum/enterprise/entities/answer'
-import { AnswersRepository } from '../repositories/answers-repository'
-import { Either, left, right } from '@/core/either'
+import type { Answer } from '@/domain/forum/enterprise/entities/answer'
+import type { AnswersRepository } from '../repositories/answers-repository'
+import { type Either, left, right } from '@/core/either'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { NotAllowedError } from '@/core/errors/errors/not-allowed-error'
 import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { AnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
+import type { AnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
 import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
 
 interface EditAnswerUseCaseRequest {
