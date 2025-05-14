@@ -41,7 +41,7 @@ export class CreateQuestionUseCase {
       return QuestionAttachment.create({
         attachmentId: new UniqueEntityID(attachmentId),
         questionId: question.id,
-      })
+      }, )
     })
 
     question.attachments = new QuestionAttachmentList(questionAttachments)
