@@ -4,7 +4,6 @@ import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
-import { AnswerFactory } from 'test/factories/make-answer'
 import { QuestionFactory } from 'test/factories/make-question'
 import { QuestionCommentFactory } from 'test/factories/make-question-comment'
 import { StudentFactory } from 'test/factories/make-student'
@@ -32,7 +31,9 @@ describe('Fetch Question Comments (E2E)', () => {
   })
 
   test('[GET] /questions/:questionId/comments', async () => {
-    const user = await studentFactory.makePrismaStudent()
+    const user = await studentFactory.makePrismaStudent({
+      name: 'John Doe',
+    })
 
     const session = jwt.sign({ sub: user.id.toString() })
 
@@ -59,9 +60,15 @@ describe('Fetch Question Comments (E2E)', () => {
 
     expect(response.statusCode).toBe(200)
     expect(response.body).toEqual({
-      questionComments: expect.arrayContaining([
-        expect.objectContaining({ content: 'Comment 1' }),
-        expect.objectContaining({ content: 'Comment 2' }),
+      comments: expect.arrayContaining([
+        expect.objectContaining({
+          content: 'Comment 1',
+          authorName: 'John Doe',
+        }),
+        expect.objectContaining({
+          content: 'Comment 2',
+          authorName: 'John Doe',
+        }),
       ]),
     })
   })
